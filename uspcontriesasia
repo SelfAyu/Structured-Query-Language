@@ -1,0 +1,466 @@
+-- create the database
+CREATE DATABASE GloballEve
+GO
+
+-- switch to it
+USE GloballEve
+GO
+
+-- create the tables
+CREATE TABLE tblCategory (
+	CategoryID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	CategoryName nvarchar(255) NULL
+)
+
+GO
+CREATE TABLE tblContinent(
+	ContinentID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	ContinentName nvarchar(255) NULL
+)
+
+GO
+CREATE TABLE tblCountry(
+	CountryID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	CountryName nvarchar(255) NULL,
+	ContinentID int NULL
+)
+
+GO
+CREATE TABLE tblEvent(
+	EventID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	EventName varchar(8000) NULL,
+	EventDetails varchar(max) NULL,
+	EventDate date NULL,
+	CountryID int NULL,
+	CategoryID int NULL
+) 
+
+GO
+
+-- create one example view
+CREATE VIEW vwEvents
+AS
+SELECT        
+	-- country and continent
+	cn.ContinentName AS Continent, 
+	cy.CountryName AS Country,
+
+	-- events
+	ev.EventId,
+	ev.EventName, 
+	ev.EventDetails, 
+	ev.EventDate, 
+
+	-- category
+	cat.CategoryName AS Category
+FROM            
+	tblCountry AS cy
+	INNER JOIN tblContinent AS cn ON cy.ContinentID = cn.ContinentID 
+	INNER JOIN tblEvent AS ev ON cy.CountryID = ev.CountryID 
+	INNER JOIN tblCategory AS cat ON ev.CategoryID = cat.CategoryID
+
+
+GO
+
+-- add the categories
+SET IDENTITY_INSERT tblCategory ON 
+
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (1, N'Politics')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (2, N'Alien life')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (3, N'Exploration')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (4, N'Natural world')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (5, N'Death and disaster')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (6, N'War and conflict')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (7, N'Sports')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (8, N'Economy')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (9, N'Entertainment and culture')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (10, N'Health and medicine')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (11, N'Love and relationships')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (12, N'Science and technology')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (13, N'Old')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (14, N'Transport')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (15, N'Energy')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (16, N'Royalty and monarchy')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (17, N'Crime and legal')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (18, N'Religion')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (19, N'Education')
+GO
+INSERT tblCategory (CategoryID, CategoryName) VALUES (20, N'General')
+GO
+SET IDENTITY_INSERT tblCategory OFF
+GO
+
+-- add the continents
+SET IDENTITY_INSERT tblContinent ON 
+
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (1, N'Asia')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (2, N'Africa')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (3, N'Europe')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (4, N'Australasia')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (5, N'South America')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (6, N'North America')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (7, N'Antarctic')
+GO
+INSERT tblContinent (ContinentID, ContinentName) VALUES (8, N'Not applicable')
+GO
+SET IDENTITY_INSERT tblContinent OFF
+GO
+SET IDENTITY_INSERT tblCountry ON 
+
+GO
+
+-- add the countries
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (1, N'Ukraine', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (2, N'France', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (3, N'Germany', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (4, N'Italy', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (5, N'United States', 6)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (6, N'Bosnia and Herzegovina', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (7, N'United Kingdom', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (8, N'Japan', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (9, N'Indonesia', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (10, N'Vietnam', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (11, N'Russia', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (12, N'Switzerland', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (13, N'Space', 8)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (14, N'Argentina', 5)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (15, N'Antarctica', 7)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (16, N'Belgium', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (17, N'Egypt', 2)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (18, N'Ghana', 2)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (19, N'China', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (20, N'Not set', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (21, N'International', 8)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (22, N'Marshall Islands', 4)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (23, N'Iraq', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (24, N'India', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (25, N'South Korea', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (26, N'Nepal', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (27, N'Austria', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (28, N'Hungary', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (29, N'South Africa', 2)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (30, N'Cuba', 6)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (31, N'Zimbabwe', 2)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (32, N'Australia', 4)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (33, N'Sweden', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (34, N'Bolivia', 5)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (35, N'Sri Lanka', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (36, N'Spain', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (41, N'Netherlands', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (42, N'Singapore', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (43, N'Vatican City', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (37, N'Iran', 1)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (38, N'Ireland', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (39, N'Luxembourg', 3)
+GO
+INSERT tblCountry (CountryID, CountryName, ContinentID) VALUES (40, N'Lebanon', 1)
+GO
+SET IDENTITY_INSERT tblCountry OFF
+GO
+SET IDENTITY_INSERT tblEvent ON 
+
+GO
+
+-- add the events
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (1, N'Chernobyl', N'Reactor 4 at a nuclear power plant in Chernobyl, Ukraine exploded, blowing the 1,000 ton cover off the top of the reactor.', CAST(N'1986-04-26' AS Date), 1, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (2, N'Pearl Harbour', N'Japan launched an attack dubbed ‘Operation Z’ on Pearl Harbour, a United States naval base in Hawaii. The U.S. declared war on Japan the following day, bringing them into World War II.', CAST(N'1941-12-07' AS Date), 5, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (3, N'World War 1 began', N'Often referred to as The Great War, World War I resulted in the death of over 16 million combatants and civilians. The catalyst that spurred the outbreak of fighting was the assassination of Archduke Franz Ferdinand of Austria-Hungary in June 1914, which took place in Sarajevo on 28th June, a month earlier.', CAST(N'1914-07-28' AS Date), 6, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (4, N'World War 1 ends', N'The first world war ended on what is now known as Armistice Day or Remembrance Day.  The armistice was signed in Compiegne in France.', CAST(N'1918-11-11' AS Date), 2, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (5, N'The UK declares war on Germany', N'Following Germany''s invasion of Poland, the UK''s Prime Minister Neville Chamberlain concluded a speech with the words "I have to tell you now that no such undertaking has been received and that consequently this country is at war with Germany."', CAST(N'1939-09-03' AS Date), 7, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (6, N'Liberation of Bergen-Belsen', N'Up to 60,000 prisoners were liberated by the British 11th Armoured Division, although many subsequently died.', CAST(N'1945-04-15' AS Date), 3, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (7, N'World War II ends', N'Japanese representatives aboard the USS Missouri surrender, in effect ending World War II.', CAST(N'1945-09-02' AS Date), 8, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (8, N'Hiroshima', N'The United States dropped an atomic bomb on the city of Hiroshima (Nagasaki followed 3 days later), leading to Japan''s surrender, ending World War II.  At least 129,000 people were killed.', CAST(N'1945-08-06' AS Date), 8, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (9, N'Asian tsunami', N'An earthquake of magniture 9.1-9.3 occurred, with the epicentre off the west coast of Sumatra, Indonesia, killing 230,000 people in 14 countries.', CAST(N'2004-12-26' AS Date), 21, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (10, N'Liberation/fall of Saigon', N'The People''s Army of Vietnam and the National Liberation Front of South Vietnam captured the capital of the south of the country, ending the Vietnam War', CAST(N'1975-04-30' AS Date), 10, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (11, N'9/11 attacks', N'Two hijacked planes crashed into the twin towers of the world trade centre, killing over 3,000 people  (among them over 400 firefighters and police officers).', CAST(N'2001-09-11' AS Date), 5, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (12, N'Brexit vote', N'By a narrow majority Britain votes to leave the European Union (England and Wales voted to leave, although Scotland and Northern Ireland voted to remain).', CAST(N'2016-06-23' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (13, N'London Olympic games', N'Widely considered a success, the London Olympics started on 27th July with an opening ceremony which included the Spice Girls and a dramatisation of the NHS.', CAST(N'2012-07-27' AS Date), 7, 7)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (14, N'Lehman Brothers collapses', N'Financial services firm Lehman Brothers filed for Chapter 11 bankruptcy protection on this date.  The filing remains the largest bankruptcy filing in U.S. history, with Lehman holding over $600 billion in assets.', CAST(N'2008-09-15' AS Date), 5, 8)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (15, N'Last edition of "Top of the Pops"', N'The last edition of "Top of the Pops" is broadcast.  The show was hosted by Jimmy Savile, subsquently to be disgraced as a serial sex offender.', CAST(N'2006-07-30' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (16, N'London Eye opens', N'The London Eye is a giant Ferris wheel on the South Bank of the River Thames in London, built to celebrate the millennium (although it opened late).', CAST(N'2000-03-09' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (17, N'First Harry Potter Book published', N'Harry Potter and the Philosopher''s Stone was first published, the first of an eventual series of 7 by the authoress JK Rowling', CAST(N'1997-07-30' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (18, N'Teletubbies first broadcast', N'Tinky-Winky, Dipsy, Laa Laa and Po (not forgetting Nu Nu, the vacuum cleaner) first hit the UK''s television screens on this momentous date in history.', CAST(N'1997-03-31' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (19, N'Channel Tunnel opens', N'The Channel Tunnel was officially opened, one year later than originally planned, by Queen Elizabeth II and the French president, François Mitterrand, in a ceremony held in Calais on this date.', CAST(N'1994-05-06' AS Date), 2, 14)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (20, N'Premier League starts', N'The first season ended (as it did 11 times subsequently) with Alex Ferguson ’s Mancheser United taking the trophy. Teddy Sheringham finished as top scorer with 22 goals (one for Nottingham Forest , 21 for Spurs ).', CAST(N'1992-08-15' AS Date), 7, 7)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (21, N'Margaret Thatcher resigns', N'Rather than face a humiliating second round of the Conservative Party leadership election, Margraret Thatcher bows out after 11 years in government.', CAST(N'1990-11-22' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (22, N'Coup attempt in Russia', N'The 1991 Soviet coup d''état attempt, also known as the August Putsch or August Coup, was an attempt by members of the Soviet Union''s government to take control of the country from Soviet president Mikhail Gorbachev.', CAST(N'1991-08-19' AS Date), 11, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (23, N'Google launched', N'Google filed for incorporation in California on this date, bringing a new verb to the English language.', CAST(N'1998-09-04' AS Date), 5, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (24, N'Hillsborough', N'96 people died in the crowd gathered to watch a football match between Liverpool and Nottingham Forest  Lord Justice Taylor’s report on the disaster subsequently found there had been a series of problems leading to the huge death toll.', CAST(N'1989-04-15' AS Date), 7, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (25, N'World Wide Web launched', N'On this date Tim Berners-Lee and Robert Cailliau, a Belgian engineer, issued a formal detailed proposal for a project, the acceptance of which initiated The Web.', CAST(N'1990-11-12' AS Date), 12, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (26, N'Great Storm of 1987', N'After Michael Fish (the weatherman) memorably dismisses the chances of a severe storm causing problems, Sevenoaks becomes NoOaks and powerful winds cause chaos in the South-East of England.', CAST(N'1987-10-15' AS Date), 7, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (27, N'M25 opens', N'The last stage of the M25, London''s orbital motorway, opened on this date, ensuring traffic jams for years to come.', CAST(N'1986-10-29' AS Date), 7, 14)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (28, N'Live Aid', N'Bob Geldof organises a host of celebrities to play at Wembley Stadium to raise money to alleviate hunger in Africa - by common consent Queen steal the show.', CAST(N'1985-07-13' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (29, N'Miners'' strike starts', N'Arthur Scargill begins a coal miners'' strike which leads to bitter confrontations between miners and police, most notably at the Orgreave coking works', CAST(N'1984-06-18' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (30, N'Shergar kidnapped', N'The racehorse Shergar was kidnapped (presumably being held in the same place as Lord Lucan, who disappeared from public life somewhat earlier).', CAST(N'1983-02-08' AS Date), 7, 7)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (32, N'Monty Python first broadcast', N'John Cleese, Michael Palin, Terry Jones, Terry Gilliam, Graham Chapman and Eric Idle launch Monty Python''s Flying Circus on TV.  They''re all naughty boys!', CAST(N'1969-10-05' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (33, N'Decimalisation', N'Britain says goodbye to base 12 currency and thruppeny bits, when 12 old pennies suddenly became worth 5 new ones.', CAST(N'1971-02-15' AS Date), 7, 8)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (34, N'Bloody Sunday', N'At a civil rights march in Derry, 30th January, 1972, thirteen people were shot dead (a fourteenth would die months later in hospital).', CAST(N'1972-01-30' AS Date), 7, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (35, N'Britain joins the EEC', N'On this date, Britain (along with Ireland and Denmark) joined the European Community, as it was then called.  In Britain''s case, temporarily it would seem …', CAST(N'1973-01-01' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (36, N'Microsoft founded', N'Microsoft ((the first version was hyphenated as Micro-Soft) was founded on this date by Bill Gates (who was 19 at the time) and Paul Allen (who was 22).  Curiously, the company didn''t crash and have to be re-booted.', CAST(N'1975-04-04' AS Date), 5, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (37, N'Fawlty Towers first broadcast', N'John Cleese''s Basil Fawlty entered the UK culture, as did the late Andrew Sachs''s Manuel.  Or should that be "Manuel!"?', CAST(N'1975-09-19' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (39, N'First test-tube baby', N'Louise Joy Brown born in Oldham, weighing 5lb 12oz.  Patrick Steptoe, a consultant gynaecologist, and Robert Edwards, a research physiologist, had been developing their techniques in the field of in vitro (in glass) fertilisation since the mid-1960s.', CAST(N'1978-07-25' AS Date), 7, 10)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (40, N'Space Invaders arrive', N'On this date the first Space Invaders Machine arrived in Britain, ready for the forthcoming Amusements Trade Exhibition in London.', CAST(N'1979-01-22' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (41, N'John Lennon shot', N'Mark Chapman shot John Lennon near the entrance to the Dakota Building in the Upper-West Side of Manhattan, where Lennon lived.', CAST(N'1980-12-08' AS Date), 5, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (43, N'Argentina invades the Falklands', N'Argentina''s General Galtieri invades the Malvinas (as they are known in Spanish), leading Margaret Thatcher to send a task force to recapture them.', CAST(N'1982-04-02' AS Date), 14, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (46, N'Thunderbirds are go!', N'The launch of a new era in puppetry.  Which was your favourite Thunderbird rocket?', CAST(N'1965-09-30' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (47, N'Churchill dies', N'Voted the Greatest Briton of all time, Winnie finally popped his clogs on this date, leading to a massive state funeral.', CAST(N'1965-01-24' AS Date), 7, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (49, N'Beatles'' first single', N'Love Me Do reached number 17 in the UK, but ushered in the world''s greatest band.  Surely.', CAST(N'1962-10-04' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (50, N'The Pill is launched', N'Leading to the sexual revolution, women can control their own conception for the first time.', CAST(N'1961-12-04' AS Date), 7, 11)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (51, N'First episode of Coronation Street', N'The trumpeter who played the memorable solo on the theme tunetook a one-off fee rather than opting for royalties.  Poor trumpeter, as the Street is still going 65+ years on.', CAST(N'1960-12-09' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (52, N'M1 opens', N'The first full British motorway opens, leading to the introduction of that great British institution, the service station.', CAST(N'1959-11-02' AS Date), 7, 14)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (54, N'The Lord of the Rings published', N'Fans of Bilbo, Frodo, Gollum or even Sauron (less of the last two, perhaps) have cause to celebrate this date.  Haters of overlong films stuffed with CGI effects less so.', CAST(N'1954-07-21' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (55, N'DNA helix unravelled', N'Francis Crick and James D Watson publish the double helix structure of DNA.  Although James Watson''s autobiography claims all of the credit, the truth is that some of it should also go to Rosalind Franklin of King''s College London', CAST(N'1953-04-25' AS Date), 7, 10)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (58, N'1984 published', N'George Orwell predated "I''m a celebrity, get me out of here!" by 60 years or so - you''ll never look at a rat in the same way again.', CAST(N'1949-06-08' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (60, N'Berlin air-lift begins', N'To get supplies to the American, French and British sectors of Berlin, the allies (excluding Russia, naturally) began flying goods in by air.', CAST(N'1948-06-26' AS Date), 3, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (61, N'The Windrush docks', N'Almost 500 (mainly Jamaicans and Trinidadians) sailed on the SS Empire Windrush, landing in the UK and immediately wondering a) why it was so cold and b) where all the colours had gone.', CAST(N'1948-06-22' AS Date), 7, 20)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (62, N'WWII ends in Europe', N'Although the war in the Far East would go on for another 4 months, this date saw the end of war in Europe, with Germany surrendering unconditionally in Reims.', CAST(N'1945-05-07' AS Date), 2, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (63, N'First edition of Desert Island Discs', N'The greatest radio program ever had its first episode, hosted by its creator Roy Plomley.  The first guest was Vic Oliver, an Austro-American comedian, actor and musician.', CAST(N'1942-01-29' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (64, N'First Times Crossword', N'A great day in history indeed, as the finest cryptic crossword in the world saw the light of day for the first time.', CAST(N'1930-02-01' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (65, N'First pylon', N'Where would the "Pylon of the Month" website be without this date?  And more importantly, where would the National Grid be?', CAST(N'1928-07-14' AS Date), 7, 15)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (66, N'General Strike begins', N'The great General Strike of 1926 began on this day.', CAST(N'1926-05-03' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (67, N'BBC formed', N'The British Broadcasting Company (as it then was called) came into existence, leading to teletubbies and Doctor Who a few decades later.', CAST(N'1922-10-18' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (68, N'Women vote for the first time', N'On this date women voted in a General Election for the first time.', CAST(N'1918-12-14' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (69, N'Russian revolution', N'Actually the second revolution in a year, as Lenin led the Bolsheviks to power (although a long and bitter civil war followed before the communists gained complete control).', CAST(N'1917-11-07' AS Date), 11, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (70, N'The Titanic sinks', N'Would we have ever heard of Leonardo di Caprio and Kate Winslet without this event?', CAST(N'1912-04-15' AS Date), 7, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (71, N'Captain Oates leaves his tent for the last time', N'Displaying true heroism, Captain Oates goes out for a walk in the polar cold, uttering the famous words that he might be gone for some time.', CAST(N'1912-03-17' AS Date), 15, 3)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (72, N'Theory of relativity published', N'Albert Einstein gives unruly hair a new cool, publishing his theory of relativity.', CAST(N'1905-06-06' AS Date), 3, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (73, N'Queen Victoria dies', N'The then longest-serving monarch Queen Victoria died on this date.', CAST(N'1901-01-22' AS Date), 7, 16)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (74, N'Labour party formed', N'Leading indirectly to Jeremy Corbyn, the "Labour Representation Committee" first met.', CAST(N'1900-02-27' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (75, N'Daily Mail launched', N'On one of the sadder days in world history, the Daily Mail began.  It set the tone by campaigning against accepting Jewish refugees from Nazi Germany.', CAST(N'1896-05-04' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (76, N'Manchester Ship Canal opens', N'To break the monopoly of Liverpool, Manchester businessmen dug a canal which is still used to this day.', CAST(N'1894-01-01' AS Date), 7, 14)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (77, N'Preston North End win first league', N'The greatest football team of all time, North End won the first football league.  A pilgrimage to their ground at Deepdale is still a must for the discerning football fan.', CAST(N'1889-01-04' AS Date), 7, 7)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (78, N'Alice in Wonderland published', N'Lewis Carroll''s masterpiece - humour, wit, puzzles and a bit of a dodgy back story involving an obsession with Alice Liddell.', CAST(N'1865-07-04' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (79, N'US Civil War begins', N'After the secession of South Carolina from the Union, conflict became inevitable.  The first shots of the war were fired on this date.', CAST(N'1861-04-12' AS Date), 5, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (80, N'Charge of the Light Brigade', N'Into the valley of death, rode the 600.  "C’est magnifique, mais ce n’est pas la guerre", said the French field-marshal who watched the charge.', CAST(N'1854-10-25' AS Date), 1, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (81, N'Marx publishes the Communist manifesto', N'One of the most influential events in history, although whether any society has genuinely adopted communism is doubtful.', CAST(N'1848-02-21' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (82, N'Jane Eyre published', N'Chick-lit fiction advanced significantly on this date.  "I married him; I hold myself supremely blest".', CAST(N'1847-10-16' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (83, N'Slavery abolished', N'The disgrace of slavery was officially abolished on this date, after years of campaigning by the likes of William Wilberforce.', CAST(N'1834-08-01' AS Date), 7, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (84, N'The Battle of Waterloo', N'Immortalised in Abba''s winning Eurovision Song Contest entry, Waterloo saw (just) the defeat of Napoleon by the Duke of Wellington.', CAST(N'1815-06-18' AS Date), 16, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (85, N'Rosetta Stone found', N'Bearing the same inscription in three different languages, the Rosetta Stone was uncovered by Napoleon''s army and allowed us to interpret hieroglyphics.', CAST(N'1799-07-19' AS Date), 17, 3)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (86, N'Storming of the Bastille', N'Thus began the French revolution, leading to the concepts of liberty, equality and fraternity, and much terror besides.', CAST(N'1789-07-14' AS Date), 2, 6)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (87, N'US colonies declare independence', N'Would history have been different if Britain had treated its colonies more fairly?  Perhaps we''d have missed the first man on the moon, the welcoming of refugees from around the world, and Donald Trump.', CAST(N'1776-07-04' AS Date), 5, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (88, N'The Wealth of Nations published', N'Adam Smith''s seminal work began the "dismal science" of economics, explaining the division of labour by reference to a needle factory.', CAST(N'1776-03-09' AS Date), 7, 8)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (89, N'The Origin of Species published', N'The most influential theory every published?  Even today a good precept of biology is not to bet against Charles Darwin''s research.', CAST(N'1859-11-24' AS Date), 7, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (90, N'The Y2K bug doesn''t happen', N'Armies of contract programmers make enough money to keep them in coffee and games consoles, but the millennium bug fails to strike.', CAST(N'2000-01-01' AS Date), 7, 12)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (91, N'Berlin Wall falls', N'The collapse of communism in Eastern Europe was complete when East Germans started to tear down the wall that had imprisoned them for decades.', CAST(N'1989-11-09' AS Date), 3, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (92, N'Donald Trump elected', N'The United States shocks the world by electing Donald Trump, a man with (it''s fair to say) illiberal views.', CAST(N'2016-11-08' AS Date), 5, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (94, N'Ghana becomes independent', N'The state of Ghana, named after the medieval West African empire, becomes an independent country within the Commonwealth of Nations.', CAST(N'1957-03-06' AS Date), 18, 1)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (95, N'The Matrix released', N'One of the greatest films ever made was released on this date.  And yes, the sequels were rubbish.', CAST(N'1999-06-11' AS Date), 5, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (96, N'Wise Owl starts', N'Wise Owl Training began life on this date, being run initially from the basement of a house in Chorlton-cum-Hardy in Manchester.  Those were the days!', CAST(N'1992-02-07' AS Date), 7, 8)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (97, N'Mao dies', N'Responsible for more deaths than probably anyone else in history, Mao also wrote one of history''s best-sellers - his "Little Red Book".', CAST(N'1976-09-09' AS Date), 19, 5)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (98, N'The Economist launched', N'The bible of absolute truth on earth was launched on this date (or at least, that''s the impression the Economist would give).', CAST(N'1843-08-05' AS Date), 7, 9)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (99, N'First modern triathlon', N'The first modern swim/bike/run event to be called a triathlon was held at Mission Bay, San Diego, California on this date.', CAST(N'1974-09-25' AS Date), 5, 7)
+GO
+INSERT tblEvent (EventID, EventName, EventDetails, EventDate, CountryID, CategoryID) VALUES (100, N'Inventor of glider dies', N'Sir George Cayley, 6th Baronet, was a prolific English engineer who (it is often claimed) invented the glider.', CAST(N'1857-12-15' AS Date), 7, 14)
+GO
+
+SET IDENTITY_INSERT tblEvent OFF
+GO
+
+---- add 
+--ALTER TABLE tblCategory ADD  CONSTRAINT aaaaaCategory_PK PRIMARY KEY NONCLUSTERED 
+--(
+--	CategoryID ASC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+--GO
+
+--ALTER TABLE tblContinent ADD  CONSTRAINT aaaaaContinent_PK PRIMARY KEY NONCLUSTERED 
+--(
+--	ContinentID ASC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+--GO
+
+--ALTER TABLE tblCountry ADD  CONSTRAINT aaaaaCountry_PK PRIMARY KEY NONCLUSTERED 
+--(
+--	CountryID ASC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+--GO
+
+--ALTER TABLE tblEvent ADD  CONSTRAINT aaaaaEvent_PK PRIMARY KEY NONCLUSTERED 
+--(
+--	EventID ASC
+--)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+--GO
+
+-- add relationships
+ALTER TABLE tblCountry  WITH CHECK ADD  CONSTRAINT FK_tblCountry_tblContinent FOREIGN KEY(ContinentID)
+REFERENCES tblContinent (ContinentID)
+GO
+ALTER TABLE tblCountry CHECK CONSTRAINT FK_tblCountry_tblContinent
+GO
+ALTER TABLE tblEvent  WITH CHECK ADD  CONSTRAINT FK_tblEvent_tblCategory1 FOREIGN KEY(CategoryID)
+REFERENCES tblCategory (CategoryID)
+GO
+ALTER TABLE tblEvent CHECK CONSTRAINT FK_tblEvent_tblCategory1
+GO
+ALTER TABLE tblEvent  WITH CHECK ADD  CONSTRAINT FK_tblEvent_tblCountry FOREIGN KEY(CountryID)
+REFERENCES tblCountry (CountryID)
+GO
+ALTER TABLE tblEvent CHECK CONSTRAINT FK_tblEvent_tblCountry
+GO
+
+-- add a column to the continent table
+ALTER TABLE tblContinent
+	ADD Summary varchar(100)
+GO
+
+-- set some (but not all) values
+UPDATE tblContinent SET Summary = 'Big' WHERE ContinentID = 1
+UPDATE tblContinent SET Summary = 'Biggish' WHERE ContinentID = 2
+UPDATE tblContinent SET Summary = 'Home' WHERE ContinentID = 3
+UPDATE tblContinent SET Summary = 'Lots of trees' WHERE ContinentID = 5
+UPDATE tblContinent SET Summary = 'Full of penguins' WHERE ContinentID = 7
